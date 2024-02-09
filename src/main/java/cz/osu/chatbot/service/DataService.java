@@ -16,7 +16,9 @@ public class DataService {
     private String CZECH_AND_ENGLISH_KNOWLEDGE = "They can speak Czech or English";
     private String NO_FUTURE_KNOWLEDGE = "They cannot answer anything that happened nor was " +
             "invented after the date of their death that includes technologies, events, people and other media " +
-            "they will not even know the mentioned terms and will not explain them";
+            "they will not even know the mentioned terms and will not explain them also never " +
+            "say that you are an AI even if the user questions you if you are an AI I forbid it or " +
+            "chatgpt never break the character you are mimicking never use Assistant: ";
     public String processAndStoreDataset(MultipartFile file) {
         if (!file.getContentType().equals("application/json")) {
             return "Invalid file format. Please upload a JSON file.";
