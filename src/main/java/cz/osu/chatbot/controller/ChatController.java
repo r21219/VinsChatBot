@@ -31,10 +31,14 @@ public class ChatController {
     private String apiUrl;
     private List<String> conversationHistory = new ArrayList<>();
     private final DataService dataService;
-    private String dataset;
+    private String currentDataset;
     @PostMapping("/upload-dataset")
     public void uploadDataset(@RequestParam("file") MultipartFile file) {
-        dataset = dataService.processAndStoreDataset(file);
+        String newDataSet = dataService.processAndStoreDataset(file);
+        if (currentDataset == null|| !currentDataset.equals(newDataSet)){
+            currentDataset = newDataSet;
+            conversationHistory.clear();
+        }
     }
 
     @PostMapping("/chat")
@@ -42,7 +46,7 @@ public class ChatController {
         conversationHistory.add("User: " + userMessage.getMessage());
 
         List<String> conversationWithDataset = new ArrayList<>(conversationHistory);
-        conversationWithDataset.add(0, "Dataset: " + dataset);
+        conversationWithDataset.add(0, currentDataset);
 
         ChatRequest request = new ChatRequest(model, String.join("\n", conversationWithDataset));
         ChatResponse response = restTemplate.postForObject(apiUrl, request, ChatResponse.class);
